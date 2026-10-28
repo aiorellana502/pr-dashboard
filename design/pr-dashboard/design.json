@@ -1,0 +1,10 @@
+{
+  "title": "Gentle-shell PR dashboard",
+  "brief": "Three static six-PR dashboard directions. All metadata is explicitly illustrative, not live GitHub status. Ledger is recommended.",
+  "feature": "odd/tasks/pr-dashboard.md",
+  "artboards": [
+    { "file": "01-ledger.html", "title": "The ledger (recommended)", "tradeoff": "Warm editorial overview with legible comparison rows; requires horizontal scrolling on small screens.", "width": 1440, "height": 1200 },
+    { "file": "02-board.html", "title": "The status board", "tradeoff": "Kanban lanes make stages immediate; cross-PR comparison takes more scanning.", "width": 1440, "height": 1400 },
+    { "file": "03-focus.html", "title": "Operations focus", "tradeoff": "Dark compact overview prioritizes exceptions and density over spacious reading.", "width": 1440, "height": 1400 }
+  ]
+}

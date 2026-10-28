@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1a1218">
+  <meta name="description" content="A personal ledger of open-source contributions, updated hourly from GitHub.">
+  <title>Contribution ledger · aiorellana502</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#pull-requests">Skip to pull requests</a>
+  <main>
+    <nav aria-label="Main navigation">
+      <a class="wordmark" href="./"><span aria-hidden="true">G /</span> CONTRIBUTION LEDGER</a>
+      <a href="https://github.com/aiorellana502">aiorellana502 ↗</a>
+    </nav>
+    <header>
+      <p class="eyebrow">OPEN SOURCE, ONE CONTRIBUTION AT A TIME</p>
+      <h1>Good work.<br><em>Kept in view.</em></h1>
+      <p class="intro">A quiet place to follow the work after the pull request.<br>Progress, reviews, and the next signal — together.</p>
+    </header>
+    <section class="summary" aria-label="Pull request totals">
+      <div><strong id="total">—</strong><span>Tracked</span></div>
+      <div><strong id="open">—</strong><span>Open</span></div>
+      <div><strong id="draft">—</strong><span>Draft</span></div>
+      <div><strong id="merged">—</strong><span>Merged</span></div>
+      <div><strong id="closed">—</strong><span>Closed</span></div>
+    </section>
+    <section id="pull-requests" aria-labelledby="ledger-title">
+      <div class="section-heading"><div><p class="eyebrow">THE WATCHLIST</p><h2 id="ledger-title">Work in motion</h2></div><button id="refresh" type="button">Refresh snapshot ↻</button></div>
+      <p id="message" role="status" aria-live="polite">Loading the latest published snapshot…</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Pull requests; scroll horizontally on small screens">
+        <table>
+          <caption class="sr-only">Tracked contributions with PR state, human review signals and reported checks.</caption>
+          <thead><tr><th scope="col">Pull request</th><th scope="col">State</th><th scope="col">Human reviews</th><th scope="col">Reported checks</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+    <aside aria-labelledby="signals-title">
+      <h2 id="signals-title">A signal, not a verdict.</h2>
+      <p><strong>Open</strong> means active; <strong>Draft</strong> means not ready for review. <strong>Merged</strong> is integrated; <strong>Closed</strong> ended without merging.</p>
+      <p>Review signals summarize the latest decisive human reviews, not required approvals. “Reported checks passed” only covers checks GitHub reported — it does not prove every required workflow ran. Bot success is not human approval. Open a PR for the full picture.</p>
+      <p><strong>Not reported</strong> means no check result is available. <strong>Pending</strong> means unfinished; <strong>Action required</strong> may need a maintainer. Neutral or skipped checks are not passes.</p>
+    </aside>
+    <footer>
+      <div><p class="eyebrow">LAST SUCCESSFUL SNAPSHOT</p><p id="updated">Not loaded yet</p><p id="freshness"></p></div>
+      <div><p>Collected hourly · page checks for updates every 5 minutes.</p><p>Schedules are best-effort. Failed refreshes leave the previous snapshot online.</p><a href="https://github.com/aiorellana502/pr-dashboard">Source & watchlist ↗</a></div>
+    </footer>
+    <p class="disclaimer">An independent personal tracker. Gentleman-inspired palette; not an official Gentleman-Programming website.</p>
+    <noscript><p class="error">JavaScript is needed to display snapshots. You can still visit the <a href="https://github.com/aiorellana502/pr-dashboard/actions">update workflow</a> or individual PRs on GitHub.</p></noscript>
+  </main>
+</body>
+</html>
