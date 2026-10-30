@@ -25,6 +25,7 @@ jobs:
       - name: Collect snapshot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/update_snapshot.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
