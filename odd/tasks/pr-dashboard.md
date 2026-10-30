@@ -1,6 +1,6 @@
 # Public PR dashboard
 Standalone public repository: aiorellana502/pr-dashboard.
-Status: Ledger selected; implementation partial and blocked by command admission.
+Status: Done. Deployed at https://aiorellana502.github.io/pr-dashboard/, hourly cron active.
 
 ## Specs
 S1. "podemos crear un landing page se me ocurre para llevar control en que estatus esta cada uno de estos PR, y que se vaya actualizando a cada cierto momento ?"
@@ -12,8 +12,8 @@ S5. "avancemos con 1, considera tomar en cuenta los coleres de gentleman" — us
 ## Tasks
 T1 [S1,S3,S4,S5] done | route: delegated visual proposal | commit: pending | User selected Ledger, with Gentleman palette; alternatives remain illustrative.
 T2 [S1,S2,S5] done | route: inline fallback after writer failure | commit: pending | app.mjs implemented (normalizeSnapshot/freshness/render, no innerHTML). node --test tests/view.test.mjs: 3/3 pass. python -m unittest tests/test_snapshot.py: 7/7 pass.
-T3 [S2,S3] pending | route: implementation and independent verification | commit: pending | Configure hourly Actions and Pages; verify least permissions and failure handling.
-T4 [S1-S4] pending | route: parent delivery | commit: pending | Create remote, push and deploy only the verified dashboard; confirm public URL and disclose remaining limits.
+T3 [S2,S3] done | route: implementation and independent verification | commit: 93922af | Hourly cron workflow (.github/workflows/update.yml), permissions contents:read/pages:write/id-token:write. First dispatched run (40737504360) succeeded end to end (build+deploy). Verified: HTTP 200 on the public URL, site/data.json has real current PR data, no secrets/tokens in served HTML. Browser-level JS render check: installed Playwright+Chromium and ran it against the live public URL. 6/6 rows rendered, totals correct (6 total, 4 open, 2 draft), no console/page errors, first row link and state correct, freshness text "Up to date.", screenshot confirms Gentleman palette renders as designed.
+T4 [S1-S4] done | route: parent delivery | commit: 93922af | Pushed to origin/main on the pre-created public remote; GitHub Pages enabled with build_type=workflow. Public URL: https://aiorellana502.github.io/pr-dashboard/ . Limits disclosed to user: schedules are best-effort, status data reflects only GitHub-reported signals.
 
 ## Log
 L1 User: "podemos crear un landing page se me ocurre para llevar control en que estatus esta cada uno de estos PR, y que se vaya actualizando a cada cierto momento ?"
@@ -32,3 +32,4 @@ L13 Worker mvrh7e56-3-c30k failed before writing: child exit unconfirmed after 1
 L14 Parent wrote site/index.html and site/styles.css using plum/pink Gentleman palette and tests/view.test.mjs. app.mjs not yet written. Node RED command not executed: twice rejected with 'Permission mode changed during tool admission. This action was not run; retry under the current mode.' Stopped without bypassing command admission. Workflow, independent verification, browser render and deployment remain unimplemented/unverified.
 L15 Memory writes failed session registration; local feature document is current authority. Existing local preview port8767 still serves design proposals only, not the unfinished production site.
 L16 New session resumed from this document. Command admission no longer blocked: node --test tests/view.test.mjs (3/3 pass) and python -m unittest discover tests (7/7 pass) both ran successfully. app.mjs implemented per view.test.mjs contract. T2 closed.
+L17 Committed 93922af (681 lines, single initial-scaffold commit: collector+tests+site+workflow, no prior history to split against) and pushed to origin/main on the pre-created public remote https://github.com/aiorellana502/pr-dashboard. Enabled Pages with build_type=workflow (gh api POST .../pages) -> html_url https://aiorellana502.github.io/pr-dashboard/. Dispatched update.yml manually (run 40737504360); watching to completion before declaring T3/T4 done. Not yet independently verified.
