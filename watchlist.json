@@ -1,26 +1,32 @@
 [
   {
     "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2208
+    "number": 2208,
+    "type": "pr"
   },
   {
     "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2407
+    "number": 2407,
+    "type": "pr"
   },
   {
     "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2429
+    "number": 2429,
+    "type": "pr"
   },
   {
     "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2477
+    "number": 2477,
+    "type": "pr"
   },
   {
     "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2594
+    "number": 2594,
+    "type": "pr"
   },
   {
     "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2595
+    "number": 2595,
+    "type": "pr"
   }
 ]

@@ -1,6 +1,6 @@
 # Public PR dashboard
 Standalone public repository: aiorellana502/pr-dashboard.
-Status: Done. Deployed at https://aiorellana502.github.io/pr-dashboard/, hourly cron active.
+Status: Phase 1 (PR ledger) done and deployed. Phase 2 (issues + plain-language AI explanations) in progress.
 
 ## Specs
 S1. "podemos crear un landing page se me ocurre para llevar control en que estatus esta cada uno de estos PR, y que se vaya actualizando a cada cierto momento ?"
@@ -14,6 +14,17 @@ T1 [S1,S3,S4,S5] done | route: delegated visual proposal | commit: pending | Use
 T2 [S1,S2,S5] done | route: inline fallback after writer failure | commit: pending | app.mjs implemented (normalizeSnapshot/freshness/render, no innerHTML). node --test tests/view.test.mjs: 3/3 pass. python -m unittest tests/test_snapshot.py: 7/7 pass.
 T3 [S2,S3] done | route: implementation and independent verification | commit: 93922af | Hourly cron workflow (.github/workflows/update.yml), permissions contents:read/pages:write/id-token:write. First dispatched run (40737504360) succeeded end to end (build+deploy). Verified: HTTP 200 on the public URL, site/data.json has real current PR data, no secrets/tokens in served HTML. Browser-level JS render check: installed Playwright+Chromium and ran it against the live public URL. 6/6 rows rendered, totals correct (6 total, 4 open, 2 draft), no console/page errors, first row link and state correct, freshness text "Up to date.", screenshot confirms Gentleman palette renders as designed.
 T4 [S1-S4] done | route: parent delivery | commit: 93922af | Pushed to origin/main on the pre-created public remote; GitHub Pages enabled with build_type=workflow. Public URL: https://aiorellana502.github.io/pr-dashboard/ . Limits disclosed to user: schedules are best-effort, status data reflects only GitHub-reported signals.
+
+## Specs (phase 2)
+S6. "revisa si acá https://aiorellana502.github.io/pr-dashboard/ se muestra todo eso y me gustaría que tenga explicaciones de este tipo así sencillas y claras" — referring to the plain-language, grouped status summary given in chat (PRs AND issues, each with a short plain reason for its state).
+S7. User chose "Sí, agregar Issues" — add a tracked-issues section alongside the existing PR ledger, same transparency/limits philosophy.
+S8. User chose "Resumen con IA leyendo los comentarios reales" over a fixed template — the per-item explanation is written by an LLM reading the item's real comments, not a canned sentence per state. Provider: Gemini (user's choice). Secret name: GEMINI_API_KEY (default; confirm before first deploy). Must never block or partial-publish the core snapshot if the AI call fails (reuse existing "never publish a partial refresh" rule, extended: explanation is best-effort, core PR/issue data is not).
+
+## Tasks (phase 2)
+T5 [S7,S8] done | route: worker (backend) + parent-verified | commit: pending | scripts/update_snapshot.py: watchlist `type` field (pr/issue), collect_issue(), Gemini REST call (no SDK dependency) with caching (reuse previous explanation when the item's signal is unchanged) and graceful fallback on failure; tests/test_snapshot.py extended. Parent independently reviewed the full diff (key-leak paths, cache correctness) and reran tests: 13/13 pass.
+T6 [S6,S7,S8] pending | route: worker (frontend) | commit: pending | site/app.mjs, index.html, styles.css: render an issues table, render the explanation text per row, simplify the legend copy; tests/view.test.mjs extended.
+T7 [S6,S7] pending | route: parent | commit: pending | watchlist.json: add missing PRs (#2630, #2631, #2516, #2216) and new issues (#2629, #2096, #2420).
+T8 [S8] pending | route: parent | commit: pending | Add GEMINI_API_KEY as a repo secret, wire it into .github/workflows/update.yml, dispatch and independently verify the live deploy.
 
 ## Log
 L1 User: "podemos crear un landing page se me ocurre para llevar control en que estatus esta cada uno de estos PR, y que se vaya actualizando a cada cierto momento ?"
