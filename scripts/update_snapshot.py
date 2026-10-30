@@ -123,7 +123,10 @@ def call_gemini(prompt):
         key = os.environ.get('GEMINI_API_KEY')
         if not key:
             return None
-        url = GEMINI_ORIGIN + '/v1beta/models/gemini-2.0-flash:generateContent?key=' + key
+        # Rolling alias: Google repoints this to its current flash model, so this
+        # call keeps working after Google retires whatever model it names today
+        # (e.g. gemini-2.0-flash was shut down June 1, 2026).
+        url = GEMINI_ORIGIN + '/v1beta/models/gemini-flash-latest:generateContent?key=' + key
         body = json.dumps({'contents': [{'parts': [{'text': prompt}]}]}).encode('utf-8')
         with urlopen(Request(url, data=body, headers={'Content-Type': 'application/json'}, method='POST'), timeout=20) as response:
             data = json.load(response)

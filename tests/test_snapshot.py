@@ -115,7 +115,7 @@ class NewTests(unittest.TestCase):
         from contextlib import redirect_stdout, redirect_stderr
         from urllib.error import HTTPError, URLError
         key = 'synthetic-private-value'
-        url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key
+        url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=' + key
         for failure in [HTTPError(url, 403, url, {}, None), URLError(url), RuntimeError(url), {}, {'candidates': [{'content': {'parts': [{'text': 'x' * 401}]}}]}]:
             out, err = io.StringIO(), io.StringIO()
             options = {'side_effect': failure} if isinstance(failure, Exception) else {'return_value': io.StringIO(json.dumps(failure))}
