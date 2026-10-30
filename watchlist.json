@@ -1,32 +1,15 @@
 [
-  {
-    "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2208,
-    "type": "pr"
-  },
-  {
-    "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2407,
-    "type": "pr"
-  },
-  {
-    "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2429,
-    "type": "pr"
-  },
-  {
-    "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2477,
-    "type": "pr"
-  },
-  {
-    "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2594,
-    "type": "pr"
-  },
-  {
-    "repository": "Gentleman-Programming/gentle-shell",
-    "number": 2595,
-    "type": "pr"
-  }
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2208, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2216, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2407, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2429, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2477, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2516, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2594, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2595, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2630, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2631, "type": "pr" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2096, "type": "issue" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2420, "type": "issue" },
+  { "repository": "Gentleman-Programming/gentle-shell", "number": 2629, "type": "issue" }
 ]
