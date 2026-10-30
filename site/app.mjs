@@ -5,18 +5,29 @@ function isSafePullUrl(url) {
   return typeof url === 'string' && /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/pull\/\d+$/.test(url);
 }
 
+function isSafeIssueUrl(url) {
+  return typeof url === 'string' && /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+\/issues\/\d+$/.test(url);
+}
+
+function validateExplanation(explanation) {
+  if (typeof explanation !== 'string' || !explanation || explanation.length > 400) {
+    throw new Error('Invalid explanation');
+  }
+}
+
 export function normalizeSnapshot(snapshot) {
   if (!snapshot || typeof snapshot !== 'object') throw new Error('Invalid snapshot');
-  const { generatedAt, prs } = snapshot;
+  const { generatedAt, prs, issues } = snapshot;
   if (typeof generatedAt !== 'string' || Number.isNaN(Date.parse(generatedAt))) {
     throw new Error('Invalid snapshot timestamp');
   }
-  if (!Array.isArray(prs) || prs.length === 0) {
-    throw new Error('Snapshot has no pull requests');
+  if (!Array.isArray(prs) || !Array.isArray(issues)) {
+    throw new Error('Invalid snapshot items');
   }
+  if (prs.length + issues.length === 0) throw new Error('Snapshot has no items');
   const normalizedPrs = prs.map((row) => {
     if (!row || typeof row !== 'object') throw new Error('Invalid pull request entry');
-    const { repository, number, title, state, review, checks, url } = row;
+    const { repository, number, title, state, review, checks, url, explanation } = row;
     if (typeof repository !== 'string' || !repository) throw new Error('Invalid repository');
     if (!Number.isInteger(number) || number < 1) throw new Error('Invalid pull request number');
     if (typeof title !== 'string') throw new Error('Invalid pull request title');
@@ -24,9 +35,24 @@ export function normalizeSnapshot(snapshot) {
     if (typeof review !== 'string') throw new Error('Invalid review signal');
     if (typeof checks !== 'string') throw new Error('Invalid checks signal');
     if (!isSafePullUrl(url)) throw new Error('Invalid pull request url');
-    return { repository, number, title, state, review, checks, url };
+    validateExplanation(explanation);
+    return { repository, number, title, state, review, checks, url, explanation };
   });
-  return { generatedAt, prs: normalizedPrs };
+  const normalizedIssues = issues.map((row) => {
+    if (!row || typeof row !== 'object') throw new Error('Invalid issue entry');
+    const { repository, number, title, state, url, labels, explanation } = row;
+    if (typeof repository !== 'string' || !repository) throw new Error('Invalid repository');
+    if (!Number.isInteger(number) || number < 1) throw new Error('Invalid issue number');
+    if (typeof title !== 'string') throw new Error('Invalid issue title');
+    if (state !== 'Open' && state !== 'Closed') throw new Error('Invalid issue state');
+    if (!isSafeIssueUrl(url)) throw new Error('Invalid issue url');
+    if (!Array.isArray(labels) || labels.some(label => typeof label !== 'string' || !label)) {
+      throw new Error('Invalid issue labels');
+    }
+    validateExplanation(explanation);
+    return { repository, number, title, state, url, labels, explanation };
+  });
+  return { generatedAt, prs: normalizedPrs, issues: normalizedIssues };
 }
 
 export function freshness(generatedAt, now = Date.now()) {
@@ -55,7 +81,10 @@ export function render(snapshot, doc) {
     link.setAttribute('rel', 'noopener');
 
     const prCell = doc.createElement('td');
-    prCell.append(link);
+    const explanation = doc.createElement('p');
+    explanation.textContent = pr.explanation;
+    explanation.setAttribute('class', 'explain');
+    prCell.append(link, explanation);
     const stateCell = doc.createElement('td');
     stateCell.textContent = pr.state;
     const reviewCell = doc.createElement('td');
@@ -74,6 +103,33 @@ export function render(snapshot, doc) {
   doc.getElementById('merged').textContent = String(counts.merged);
   doc.getElementById('closed').textContent = String(counts.closed);
   doc.getElementById('rows').replaceChildren(...rowElements);
+
+  const issueCounts = { total: 0, open: 0, closed: 0 };
+  const issueRows = snapshot.issues.map((issue) => {
+    issueCounts.total += 1;
+    issueCounts[issue.state.toLowerCase()] += 1;
+    const link = doc.createElement('a');
+    link.textContent = `#${issue.number} · ${issue.title}`;
+    link.setAttribute('href', issue.url);
+    link.href = issue.url;
+    link.setAttribute('rel', 'noopener');
+    const explanation = doc.createElement('p');
+    explanation.textContent = issue.explanation;
+    explanation.setAttribute('class', 'explain');
+    const titleCell = doc.createElement('td');
+    titleCell.append(link, explanation);
+    const stateCell = doc.createElement('td');
+    stateCell.textContent = issue.state;
+    const labelsCell = doc.createElement('td');
+    labelsCell.textContent = issue.labels.length ? issue.labels.join(', ') : '—';
+    const tr = doc.createElement('tr');
+    tr.append(titleCell, stateCell, labelsCell);
+    return tr;
+  });
+  doc.getElementById('issues-total').textContent = String(issueCounts.total);
+  doc.getElementById('issues-open').textContent = String(issueCounts.open);
+  doc.getElementById('issues-closed').textContent = String(issueCounts.closed);
+  doc.getElementById('issue-rows').replaceChildren(...issueRows);
 }
 
 function setMessage(doc, text) {

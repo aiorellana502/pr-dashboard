@@ -19,7 +19,7 @@
     <header>
       <p class="eyebrow">OPEN SOURCE, ONE CONTRIBUTION AT A TIME</p>
       <h1>Good work.<br><em>Kept in view.</em></h1>
-      <p class="intro">A quiet place to follow the work after the pull request.<br>Progress, reviews, and the next signal — together.</p>
+      <p class="intro">A quiet place to follow pull requests and issues.<br>Progress, reviews, and the next signal — together.</p>
     </header>
     <section class="summary" aria-label="Pull request totals">
       <div><strong id="total">—</strong><span>Tracked</span></div>
@@ -39,11 +39,27 @@
         </table>
       </div>
     </section>
+    <section class="summary" aria-label="Issue totals">
+      <div><strong id="issues-total">—</strong><span>Tracked</span></div>
+      <div><strong id="issues-open">—</strong><span>Open</span></div>
+      <div><strong id="issues-closed">—</strong><span>Closed</span></div>
+    </section>
+    <section id="issues" aria-labelledby="issues-title">
+      <div class="section-heading"><div><p class="eyebrow">THE BACKLOG</p><h2 id="issues-title">Also on the radar.</h2></div></div>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Issues; scroll horizontally on small screens">
+        <table>
+          <caption class="sr-only">Tracked issues with their state and labels.</caption>
+          <thead><tr><th scope="col">Issue</th><th scope="col">State</th><th scope="col">Labels</th></tr></thead>
+          <tbody id="issue-rows"></tbody>
+        </table>
+      </div>
+    </section>
     <aside aria-labelledby="signals-title">
       <h2 id="signals-title">A signal, not a verdict.</h2>
-      <p><strong>Open</strong> means active; <strong>Draft</strong> means not ready for review. <strong>Merged</strong> is integrated; <strong>Closed</strong> ended without merging.</p>
-      <p>Review signals summarize the latest decisive human reviews, not required approvals. “Reported checks passed” only covers checks GitHub reported — it does not prove every required workflow ran. Bot success is not human approval. Open a PR for the full picture.</p>
-      <p><strong>Not reported</strong> means no check result is available. <strong>Pending</strong> means unfinished; <strong>Action required</strong> may need a maintainer. Neutral or skipped checks are not passes.</p>
+      <p>For pull requests, <strong>Open</strong> means the work is active. <strong>Draft</strong> means it is not ready for review. <strong>Merged</strong> means the changes were added to the project. <strong>Closed</strong> means it ended without those changes being merged. For issues, <strong>Open</strong> means it is still open for attention. <strong>Closed</strong> means it was closed, not necessarily fixed.</p>
+      <p>Human review signals show each reviewer's latest approval or request for changes. They do not tell you whether all required approvals are in place. “Reported checks passed” only covers checks GitHub reported. It does not mean every required check ran. A successful bot check is not human approval. Visit the pull request for the full picture.</p>
+      <p><strong>Not reported</strong> means no check result is available. <strong>Pending</strong> means a check has not finished. <strong>Action required</strong> means a maintainer may need to act. Neutral or skipped checks do not count as passes.</p>
+      <p>The one-line explanation under each title is written by an AI model reading the item's real comments. It is a best-effort summary and may sometimes be wrong or incomplete. It is not a human's judgment.</p>
     </aside>
     <footer>
       <div><p class="eyebrow">LAST SUCCESSFUL SNAPSHOT</p><p id="updated">Not loaded yet</p><p id="freshness"></p></div>

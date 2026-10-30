@@ -48,6 +48,7 @@ td { border-top: 1px solid var(--border); padding: 23px 14px; vertical-align: to
 td:first-child { width: 46%; }
 td a { font-size: 15px; font-weight: 600; text-decoration: none; display: block; }
 td a:hover { text-decoration: underline; }
+.explain { color: var(--muted); font-size: 12px; line-height: 1.6; margin: 7px 0 0; }
 .repository { display: block; font-size: 11px; color: var(--muted); margin-top: 7px; overflow-wrap: anywhere; }
 .badge { display: inline-block; border: 1px solid currentColor; border-radius: 4px; padding: 3px 8px; font-size: 11px; white-space: nowrap; }
 .state-open { color: var(--success); }
