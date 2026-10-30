@@ -238,7 +238,10 @@ def update(entries, destination):
             for item in previous.get(kind, []):
                 try:
                     text = item['explanation']
-                    if isinstance(text, str) and text.strip() and len(text) <= 400:
+                    # A fallback is not a success: never let a transient Gemini
+                    # outage freeze every future run on a canned sentence.
+                    if (isinstance(text, str) and text.strip() and len(text) <= 400 and
+                            text != fallback_explanation(item)):
                         cache[(item['repository'], item['number'])] = {
                             'signal': explanation_signal(item), 'explanation': text}
                 except (KeyError, TypeError, ValueError):

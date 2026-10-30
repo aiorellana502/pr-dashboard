@@ -142,6 +142,16 @@ class NewTests(unittest.TestCase):
             self.assertEqual(row['labels'], ['a', 'z'])
             self.assertEqual(row['url'], 'https://github.com/a/b/issues/2')
             self.assertEqual(row['explanation'], snapshot.fallback_explanation(row))
+            # A cached fallback is never trusted: an unchanged signal still retries,
+            # so a transient Gemini outage self-heals on the next run.
+            with patch.object(snapshot, 'api', side_effect=[meta, []]) as api, patch.object(snapshot, 'call_gemini', return_value=None) as gemini:
+                snapshot.update([entry], path)
+                gemini.assert_called_once()
+                self.assertEqual(api.call_count, 2)
+            # A genuine AI explanation, unlike a fallback, IS cached and skips a retry.
+            with patch.object(snapshot, 'api', side_effect=[meta, []]), patch.object(snapshot, 'call_gemini', return_value='Needs attention.') as gemini:
+                snapshot.update([entry], path)
+                gemini.assert_called_once()
             with patch.object(snapshot, 'api', return_value=meta) as api, patch.object(snapshot, 'call_gemini') as gemini:
                 snapshot.update([entry], path)
                 gemini.assert_not_called()
@@ -170,12 +180,14 @@ class NewTests(unittest.TestCase):
             self.assertEqual([r['number'] for r in data['prs']], [1])
             self.assertEqual([r['number'] for r in data['issues']], [2])
             data['prs'][0]['explanation'] = 'Preserve this exact explanation.'
+            data['issues'][0]['explanation'] = 'Preserve this issue explanation.'
             path.write_text(json.dumps(data))
             with patch.object(snapshot, 'api', side_effect=[pr, [], [], [], issue]) as api, patch.object(snapshot, 'call_gemini') as gemini:
                 snapshot.update(entries, path)
                 gemini.assert_not_called()
                 self.assertEqual(api.call_count, 5)
             self.assertEqual(json.loads(path.read_text())['prs'][0]['explanation'], 'Preserve this exact explanation.')
+            self.assertEqual(json.loads(path.read_text())['issues'][0]['explanation'], 'Preserve this issue explanation.')
 
     def test_prompt_and_fallbacks(self):
         for state in ['Open', 'Draft', 'Closed', 'Merged']:
