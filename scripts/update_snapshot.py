@@ -134,7 +134,11 @@ def call_gemini(prompt):
         if not text or len(text) > 400 or key in text or GEMINI_ORIGIN in text:
             return None
         return text
-    except Exception:
+    except Exception as error:
+        # Safe to print: the error type and, for an HTTP error, its status code
+        # only. Never the key, the URL, or the request/response body.
+        code = getattr(error, 'code', '')
+        print(f'Gemini call failed ({type(error).__name__} {code}); using fallback.', file=sys.stderr)
         return None
 
 
